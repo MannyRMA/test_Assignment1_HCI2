@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beep Test</title>
+</head>
+<body>
+    <button id="button">Send</button>
+    <span id="test"></span>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    let socket = io();
+    let beep = new Audio("https://www.soundjay.com/buttons/sounds/beep-02.mp3");
+    let check = new Audio("https://www.soundjay.com/buttons/sounds/button-37a.mp3");
+
+    let button = document.getElementById('button');
+
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        socket.emit('click', true);
+        socket.on("is_correctly_pressed", function(args) {
+            console.log(args);
+            if(args === false) {
+                beep.play();
+            }
+            else {
+                check.play();
+            }
+        })
+    })
+</script>
+</body>
+</html>
